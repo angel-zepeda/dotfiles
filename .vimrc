@@ -46,21 +46,16 @@ Plugin 'tpope/vim-rails'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'othree/html5.vim'
-Plugin 'raimondi/delimitmate'
 Plugin 'mattn/emmet-vim'
 Plugin 'kien/ctrlp.vim'
-Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'sstallion/vim-wtf'
-"Plugin 'shougo/neocomplete.vim'
-Plugin 'stanangeloff/php.vim'
 Plugin 'taglist.vim'
-Plugin 'valloric/youcompleteme'
 Plugin 'ryanoasis/vim-devicons'
-Plugin 'sonph/onehalf'
-
-
-
+Plugin 'prettier/vim-prettier'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'maxmellon/vim-jsx-pretty'
 
 syntax on
 set t_Co=256
@@ -81,6 +76,5 @@ let g:neocomplete#enable_at_startup = 1
 "color papaya_original 
 "color cobalt
 "color wombat
-"color jellybeans
+color jellybeans
 "color Atelier_LakesideLight
-colorscheme onehalfdark 
