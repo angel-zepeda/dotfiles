@@ -1,0 +1,17 @@
+{
+    "editor.fontSize": 18,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.tabSize": 2,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "workbench.iconTheme": "simple-icons",
+    "editor.renderWhitespace": "boundary",
+    "editor.renderIndentGuides": false,
+    "window.zoomLevel": -1,
+    "editor.fontFamily": "PT mono",
+    "workbench.colorTheme": "Radical",
+    "editor.lineHeight": 23
+}
