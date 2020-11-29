@@ -4,17 +4,24 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
+
 set encoding=UTF-8
+
+syntax on
+set t_Co=256
+set background=dark
+syntax enable
+
 
 set nocompatible
 set noswapfile
 set nobackup
-set encoding=UTF-8
-set laststatus=2     
-"set relativenumber 
-set showmatch 	     
+set laststatus=2
+set showmatch
 set colorcolumn=80
 set autoindent
+"set relativenumber
+
 filetype plugin indent on
 
 set expandtab
@@ -22,8 +29,8 @@ set shiftwidth=2
 set softtabstop=2
 set number
 
-set cursorline
-set cursorcolumn
+"set cursorline
+"set cursorcolumn
 
 set wildmenu
 
@@ -39,7 +46,7 @@ map <Leader>nn :NERDTreeToggle<CR>
 
 map gn :bn<cr>
 map gp :bp<cr>
-map gd :bd<cr>  
+map gd :bd<cr>
 
 
 "EMMET for HTML
@@ -48,38 +55,45 @@ let g:user_emmet_leader_key='<C-D>'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 
-Plugin 'tpope/vim-rails'
 Plugin 'vim-ruby/vim-ruby'
 
 Plugin 'airblade/vim-gitgutter'
-Plugin 'honza/vim-snippets'
 Plugin 'flazz/vim-colorschemes'
-Plugin 'othree/html5.vim'
-Plugin 'bluz71/vim-moonfly-colors'
-Plugin 'raimondi/delimitmate'
+
+"Dark colorschemes hyper, abyss, hacker
+Plugin 'victorze/foo'
+
+Plugin 'honza/vim-snippets'
 Plugin 'mattn/emmet-vim'
+
+Plugin 'raimondi/delimitmate' "Auto close tags ( { [
+
 Plugin 'kien/ctrlp.vim'
 "Plugin 'ryanoasis/vim-devicons'
 
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'victorze/foo'
 
-Plugin 'pangloss/vim-javascript'
-Plugin 'maxmellon/vim-jsx-pretty'
-Plugin 'sbdchd/neoformat'
-
+"Typescript plugins
 Plugin 'leafgarland/typescript-vim'
 Plugin 'ianks/vim-tsx'
+
+"Javascript plugins
+Plugin 'pangloss/vim-javascript'
+Plugin 'maxmellon/vim-jsx-pretty'
+
+"Format code plugins
+Plugin 'sbdchd/neoformat'
 Plugin 'prettier/vim-prettier'
 
+"Autcomplete
 Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 
-syntax on
-set t_Co=256
-set background=dark
-syntax enable
+"Linting
+Plugin 'dense-analysis/ale'
 
+
+"Airline config
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline_section_b = '%-0.10{getcwd()}'
@@ -88,16 +102,20 @@ let g:airline_section_x = ''
 let g:airline_powerline_fonts = 1
 let g:airline_theme='distinguished'
 
+"Add extensions to highlights
 autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
 autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
+
+"Set extension for neoformat
 autocmd BufWritePre *.js Neoformat
 autocmd BufWritePre *.ts Neoformat
 autocmd BufWritePre *.jsx Neoformat
 autocmd BufWritePre *.tsx Neoformat
 
-let g:gitgutter_sign_added = '+'
-let g:gitgutter_sign_modified = '~'
-let g:gitgutter_sign_removed = '-'
+"Symbols to show git status
+let g:gitgutter_sign_added = '➕'
+let g:gitgutter_sign_modified = '〰️'
+let g:gitgutter_sign_removed = '➖'
 let g:gitgutter_sign_removed_first_line = '^'
 let g:gitgutter_sign_modified_removed = '<'
 let g:gitgutter_override_sign_column_highlight = 1
@@ -109,17 +127,16 @@ let g:ale_linters = {
 \}
 
 let g:ale_fixers = {
-\    'javascript': ['eslint'],
+\    'javascript': ['eslint', 'prettier'],
 \    'typescript': ['prettier'],
 \    'vue': ['eslint'],
 \    'scss': ['prettier'],
 \    'html': ['prettier']
 \}
 
-let g:ale_sign_error = '❌'
-let g:ale_sign_warning = '⚠️'
-"let g:ale_fix_on_save = 1
-"
+let g:ale_sign_error = '🔴'
+let g:ale_sign_warning = '🟡'
+let g:ale_fix_on_save = 1
 
 " Give more space for displaying messages.
 set cmdheight=2
@@ -147,7 +164,7 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gt <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
@@ -155,7 +172,7 @@ nmap <silent> gr <Plug>(coc-references)
 if has('nvim')
   inoremap <silent><expr> <c-space> coc#refresh()
 else
-  inoremap <silent><expr> <c-@> coc#refresh()
+  inoremap <silent><expr> <c-space> coc#refresh()
 endif
 
 " Use tab for trigger completion with characters ahead and navigate.
@@ -173,14 +190,14 @@ function! s:check_back_space() abort
 endfunction
 
 
-"color OceanicNext   
+"color OceanicNext
 "color github
-"color PaperColor
 "color molokai
-"color 1989 
+"color 1989
 "color onedark
 "color cobalt
-"color black_is_the_color 
+"color black_is_the_color
 "color simple_dark
 "color darkspace
-color PaperColor
+color Atelier_DuneDark
+"color gruvbox
