@@ -6,7 +6,7 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 
 set encoding=UTF-8
-
+set termguicolors
 syntax on
 set t_Co=256
 set background=dark
@@ -39,6 +39,10 @@ let mapleader=","
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let g:NERDTreeWinSize=24
+noremap <Tab> :bn<CR>
+noremap <S-Tab> :bp<CR>
+noremap <Leader><Tab> :Bw<CR>
+noremap <Leader><S-Tab> :Bw!<CR>
 
 setlocal indentkeys+=0.
 
@@ -46,33 +50,34 @@ map <Leader>nn :NERDTreeToggle<CR>
 
 map gn :bn<cr>
 map gp :bp<cr>
-map gd :bd<cr>
+map bk :bd<cr>
 
 
 "EMMET for HTML
 let g:user_emmet_leader_key='<C-D>'
 
 Plugin 'scrooloose/nerdtree'
+
+"Check syntax
 Plugin 'scrooloose/syntastic'
 
-Plugin 'vim-ruby/vim-ruby'
+"Plugin 'vim-ruby/vim-ruby'
 
 Plugin 'airblade/vim-gitgutter'
 Plugin 'flazz/vim-colorschemes'
 
-"Dark colorschemes hyper, abyss, hacker
-Plugin 'victorze/foo'
+"Plugin 'honza/vim-snippets'
+"Plugin 'mattn/emmet-vim'
 
-Plugin 'honza/vim-snippets'
-Plugin 'mattn/emmet-vim'
-
-Plugin 'raimondi/delimitmate' "Auto close tags ( { [
+"Auto close tags
+Plugin 'raimondi/delimitmate' 
 
 Plugin 'kien/ctrlp.vim'
+
 "Plugin 'ryanoasis/vim-devicons'
 
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'vim-airline/vim-airline'
+"Plugin 'vim-airline/vim-airline-themes'
 
 "Typescript plugins
 Plugin 'leafgarland/typescript-vim'
@@ -83,24 +88,30 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'maxmellon/vim-jsx-pretty'
 
 "Format code plugins
-Plugin 'sbdchd/neoformat'
+"Plugin 'sbdchd/neoformat'
 Plugin 'prettier/vim-prettier'
 
 "Autcomplete
 Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+":CocInstall coc-tsserver
 
 "Linting
-Plugin 'dense-analysis/ale'
+"Plugin 'dense-analysis/ale'
+
+"Icons
+"Plugin 'ryanoasis/vim-webdevicons'
+"brew tap homebrew/cask-fonts
+"brew install --cask font-hack-nerd-font
 
 
 "Airline config
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#branch#enabled = 1
-let g:airline_section_b = '%-0.10{getcwd()}'
-let g:airline_section_y = '%{strftime("%c")}'
-let g:airline_section_x = ''
-let g:airline_powerline_fonts = 1
-let g:airline_theme='distinguished'
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#branch#enabled = 1
+"let g:airline_section_b = '%-0.10{getcwd()}'
+"let g:airline_section_y = '%{strftime("%c")}'
+"let g:airline_section_x = ''
+"let g:airline_powerline_fonts = 1
+"let g:airline_theme='distinguished'
 
 "Add extensions to highlights
 autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
@@ -113,9 +124,9 @@ autocmd BufWritePre *.jsx Neoformat
 autocmd BufWritePre *.tsx Neoformat
 
 "Symbols to show git status
-let g:gitgutter_sign_added = '➕'
-let g:gitgutter_sign_modified = '〰️'
-let g:gitgutter_sign_removed = '➖'
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_modified = '˜'
+let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_removed_first_line = '^'
 let g:gitgutter_sign_modified_removed = '<'
 let g:gitgutter_override_sign_column_highlight = 1
@@ -134,8 +145,8 @@ let g:ale_fixers = {
 \    'html': ['prettier']
 \}
 
-let g:ale_sign_error = '🔴'
-let g:ale_sign_warning = '🟡'
+let g:ale_sign_error = '❌'
+let g:ale_sign_warning = '⚠️'
 let g:ale_fix_on_save = 1
 
 " Give more space for displaying messages.
@@ -167,13 +178,20 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gt <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gs :call CocAction('jumpDefinition', 'split')<CR>
+nmap <silent> gv :call CocAction('jumpDefinition', 'vsplit')<CR>
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-space> coc#refresh()
-endif
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -190,14 +208,29 @@ function! s:check_back_space() abort
 endfunction
 
 
+"Icons
+
+let g:lightline = {
+      \ 'component_function': {
+      \   'filetype': 'MyFiletype',
+      \   'fileformat': 'MyFileformat',
+      \ }
+      \ }
+
+function! MyFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+endfunction
+
+function! MyFileformat()
+  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+endfunction
+
 "color OceanicNext
 "color github
 "color molokai
 "color 1989
 "color onedark
 "color cobalt
-"color black_is_the_color
 "color simple_dark
-"color darkspace
-color Atelier_DuneDark
 "color gruvbox
+"color PaperColor
